@@ -5,21 +5,21 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
+import com.mainafelix.mycalculator.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity()
 {
     private var canAddOperation = false
     private var canAddDecimal = true
-    val workingsTV1 = findViewById<TextView>(R.id.workingsTV)
-    var workingsTV =workingsTV1
-
-    var resultsTV = findViewById<TextView>(R.id.resultsTV)
+    private  lateinit var  binding: ActivityMainBinding
 
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
     }
 
     fun numberAction(view: View)
@@ -29,12 +29,11 @@ class MainActivity : AppCompatActivity()
             if(view.text == ".")
             {
                 if(canAddDecimal)
-                    workingsTV.append(view.text)
+                   binding.workingsTV.append(view.text)
 
                 canAddDecimal = false
             }
-            else
-                workingsTV.append(view.text)
+            else binding.workingsTV.append(view.text)
 
             canAddOperation = true
         }
@@ -44,7 +43,7 @@ class MainActivity : AppCompatActivity()
     {
         if(view is Button && canAddOperation)
         {
-            workingsTV.append(view.text)
+            binding.workingsTV.append(view.text)
             canAddOperation = false
             canAddDecimal = true
         }
@@ -52,20 +51,20 @@ class MainActivity : AppCompatActivity()
 
     fun allClearAction(view: View)
     {
-        workingsTV.text = ""
-        resultsTV.text = ""
+        binding.workingsTV.text = ""
+        binding.resultsTV.text = ""
     }
 
     fun backSpaceAction(view: View)
     {
-        val length = workingsTV.length()
+        val length =  binding.workingsTV.length()
         if(length > 0)
-            workingsTV.text = workingsTV.text.subSequence(0, length - 1)
+            binding.workingsTV.text =  binding.workingsTV.text.subSequence(0, length - 1)
     }
 
     fun equalsAction(view: View)
     {
-        resultsTV.text = calculateResults()
+        binding.resultsTV.text = calculateResults()
     }
 
     private fun calculateResults(): String
@@ -153,7 +152,7 @@ class MainActivity : AppCompatActivity()
     {
         val list = mutableListOf<Any>()
         var currentDigit = ""
-        for(character in workingsTV.text)
+        for(character in binding.workingsTV.text)
         {
             if(character.isDigit() || character == '.')
                 currentDigit += character
