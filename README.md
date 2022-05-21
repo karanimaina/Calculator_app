@@ -1,4 +1,4 @@
-# Calculator_appa
+# Calculator_app
 an application that helps a user compute mathematical problems.
 
 # Technologies
